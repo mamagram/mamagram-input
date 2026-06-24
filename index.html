@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>mamagram input</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF4EE;--card:#fff;--border:#F1DAD4;--border2:#E8C4BC;
+  --text:#3D2C2C;--muted:#9A8983;--ph:#C9B7B1;
+  --coral:#D96B5C;--coral2:#C2503F;--coralp:#FBEAE6;
+  --green:#6AAF7A;--greenp:#EEF7F0;
+  --purple:#8B6FC2;--purplep:#F3EFFE;
+  --amber:#C98A2C;--amberp:#FEF6E6;
+  --dot-off:#F4D6D0;
+  --shadow:0 2px 12px rgba(61,44,44,0.07);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;}
+#app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:48px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-bottom:1px solid #ECECEC;position:sticky;top:0;z-index:30;}
+.topbar h1{font-size:19px;font-weight:700;}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:#EEECEA;border:none;font-size:18px;color:#333;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.brandrow{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 8px;}
+.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:30px;color:var(--coral);font-weight:600;}
+.badge{background:var(--coral);color:#fff;font-weight:700;font-size:14px;padding:6px 16px;border-radius:999px;}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #ECECEC;}
+.tabs button{flex:1;padding:15px 0;background:none;border:none;border-bottom:3px solid transparent;font-size:15px;font-weight:700;color:var(--muted);cursor:pointer;}
+.tabs button.active{color:var(--coral);border-bottom-color:var(--coral);}
+.prog{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 4px;}
+.dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:999px;background:var(--dot-off);}
+.dot.done{background:#6AAF7A;}
+.dot.active{width:34px;background:var(--coral);}
+.steplbl{font-size:12px;color:var(--muted);}
+.content{padding:10px 18px 24px;}
+.field{margin-bottom:24px;}
+.field label{display:block;font-size:15px;font-weight:700;margin-bottom:9px;}
+.req{color:var(--coral2);font-size:12px;font-weight:700;margin-left:5px;}
+.opt{color:var(--muted);font-size:12px;font-weight:500;margin-left:5px;}
+.hint{font-size:11px;color:var(--muted);display:block;margin-bottom:8px;}
+input[type=text],input[type=number],input[type=url],textarea{width:100%;border:1.5px solid var(--border);border-radius:16px;padding:15px 17px;font-size:16px;font-family:inherit;color:var(--text);background:#fff;outline:none;}
+input:focus,textarea:focus{border-color:var(--coral);}
+textarea{min-height:100px;resize:vertical;line-height:1.6;}
+input::placeholder,textarea::placeholder{color:var(--ph);}
+.engbox{border:1.5px solid var(--border);border-radius:16px;padding:15px 17px;background:var(--coralp);display:flex;justify-content:space-between;align-items:center;}
+.engbox .lbl{color:var(--muted);font-size:15px;}
+.engbox .val{font-size:20px;font-weight:700;color:var(--coral2);}
+.pills{display:flex;flex-wrap:wrap;gap:9px;}
+.pill{border:1.5px solid var(--border);background:#fff;color:var(--muted);border-radius:999px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
+.pill.sel{background:var(--coral);border-color:var(--coral);color:#fff;}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.gpill{border:1.5px solid var(--border);background:#fff;color:var(--text);border-radius:999px;padding:13px 12px;font-size:14px;font-weight:600;cursor:pointer;text-align:center;}
+.gpill.sel{background:var(--coral);border-color:var(--coral);color:#fff;}
+.subhead{font-size:13px;font-weight:700;color:var(--muted);margin:13px 0 9px;}
+.btnrow{display:flex;gap:10px;margin-top:6px;}
+.btn{flex:1;border-radius:16px;padding:17px 0;font-size:16px;font-weight:700;border:none;cursor:pointer;text-align:center;}
+.btn-p{background:var(--coral);color:#fff;}
+.btn-p:active{background:var(--coral2);}
+.btn-s{background:#fff;color:var(--text);border:1.5px solid var(--border2);flex:0 0 33%;}
+.list-head{padding:14px 18px 0;}
+.stats{display:flex;gap:10px;margin-bottom:14px;}
+.stat{flex:1;background:#fff;border-radius:14px;padding:13px 10px;text-align:center;box-shadow:var(--shadow);}
+.stat .v{font-size:20px;font-weight:700;color:var(--coral);}
+.stat .l{font-size:11px;color:var(--muted);margin-top:2px;}
+.copy-main{width:100%;background:#6AAF7A;color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px;}
+.copy-main:active{background:#559A65;}
+.copy-sub{width:100%;background:#fff;border:1.5px solid var(--border2);color:var(--text);border-radius:14px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;}
+.clearbtn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;display:block;margin:4px auto 14px;}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:0 18px 14px;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.fchip{border:1.5px solid var(--border);background:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.fchip.sel{background:var(--coral);border-color:var(--coral);color:#fff;}
+.cards{padding:0 18px;}
+.card{background:#fff;border-radius:18px;padding:15px 16px;margin-bottom:11px;box-shadow:var(--shadow);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.card-no{font-size:11px;font-weight:700;color:var(--muted);}
+.card-name{font-size:16px;font-weight:700;line-height:1.3;}
+.card-handle{font-size:12px;color:var(--muted);margin-top:1px;}
+.card-actions{display:flex;gap:8px;align-items:center;}
+.delbtn{background:none;border:none;font-size:16px;cursor:pointer;padding:4px;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;}
+.tag-genre{background:var(--coralp);color:var(--coral2);}
+.tag-sub{background:#F0EEF8;color:var(--purple);}
+.tag-age{background:#F5F5F5;color:#666;}
+.tag-status{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;}
+.tag-status.候補{background:var(--purplep);color:var(--purple);}
+.tag-status.掲載済み{background:var(--greenp);color:#469A5C;}
+.tag-status.連絡中{background:var(--amberp);color:var(--amber);}
+.tag-status.見送り{background:#F0F0F0;color:#999;}
+.card-stats{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px;}
+.card-stats .eng{color:var(--coral2);font-weight:700;}
+.card-memo{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.6;border-top:1px solid #F5EDE9;padding-top:7px;}
+.empty{text-align:center;color:var(--muted);padding:60px 30px;font-size:14px;line-height:1.9;}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .22s;z-index:100;white-space:nowrap;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+<script>
+const MG=[{v:'総合育児・ライフスタイル',l:'総合育児',e:'🍼'},{v:'離乳食・食育',l:'離乳食・食育',e:'🍴'},{v:'ねんね・睡眠',l:'ねんね・睡眠',e:'😴'},{v:'知育・教育',l:'知育・教育',e:'📚'},{v:'収納・インテリア',l:'収納・インテリア',e:'🏠'},{v:'節約・家計',l:'節約・家計',e:'💰'},{v:'ファッション・おしゃれ',l:'ファッション',e:'👗'},{v:'ウェルネス・美容',l:'ウェルネス',e:'🧘'},{v:'おでかけ・旅行',l:'おでかけ・旅行',e:'✈️'},{v:'育児グッズ',l:'育児グッズ',e:'🛒'},{v:'その他',l:'その他',e:'🔖'}];
+const SG=['グッズ紹介','おもちゃ','絵本','ファッション','お出かけ','PR・案件','子供ごはん・レシピ','モンテッソーリ','手作りおもちゃ','プチプラ・100均','旅行','グルメ','知育玩具','美容・スキンケア','サプリ・健康','子供との接し方・声かけ','マタニティ'];
+const C1=[{v:'0歳',e:'🍼'},{v:'1歳',e:'🧸'},{v:'2歳',e:'🧸'},{v:'3歳',e:'🎠'},{v:'4歳',e:'✏️'},{v:'5歳',e:'✏️'},{v:'6歳',e:'🎒'},{v:'小学1年',e:'🎒'},{v:'小学2年',e:'🎒'},{v:'小学3年以上',e:'🎒'},{v:'不明',e:'❓'}];
+const C2=[{v:'0歳',e:'🍼'},{v:'1歳',e:'🧸'},{v:'2歳',e:'🧸'},{v:'3歳',e:'🎠'},{v:'4歳',e:'✏️'},{v:'5歳',e:'✏️'},{v:'6歳以上',e:'🎒'},{v:'妊娠中',e:'🤰'},{v:'2人目希望中',e:'✨'},{v:'不明',e:'❓'}];
+const PL=[{v:'Instagram',e:'📸'},{v:'X',e:'✗'},{v:'YouTube',e:'▶️'},{v:'TikTok',e:'🎵'}];
+const PF=['毎日','週4〜5回','週3〜4回','週2〜3回','週1〜2回','週1回','月2〜3回','不定期'];
+const PR=[{v:'あり',e:'✅'},{v:'なし',e:'❌'},{v:'不明',e:'❓'}];
+const ST=['候補','掲載済み','連絡中','見送り'];
+const VB=['ハイエンド・上質系','ナチュラル・おしゃれ系','プチプラ・庶民派','ミックス'];
+const SL=['基本情報','ジャンル','数字・頻度','メモ・URL'];
+let state={tab:'add',step:0,entries:[],form:ef(),filter:'すべて',lastCopied:0};
+function ef(){return{name:'',handle:'',platform:'Instagram',mainGenre:'',subGenres:[],child1Age:'',child2Ages:[],childCount:'',vibe:'',followers:'',avgLikes:'',postFreq:'',prStatus:'',buzzUrl:'',buzzLikes:'',status:'候補',memo:''};}
+function today(){const d=new Date();return`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;}
+function eng(f,l){f=parseFloat(f);l=parseFloat(l);if(!f||!l)return null;return l/f*100;}
+function esc(s){return(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function ages(e){return[e.child1Age,...(e.child2Ages||[])].filter(Boolean).join('／');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2000);}
+function save(){localStorage.setItem('mg2',JSON.stringify(state.entries));}
+function load(){try{const d=localStorage.getItem('mg2');state.entries=d?JSON.parse(d):[];}catch(e){state.entries=[];}render();}
+async function cp(text){try{await navigator.clipboard.writeText(text);return true;}catch(e){try{const t=document.createElement('textarea');t.value=text;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.focus();t.select();document.execCommand('copy');document.body.removeChild(t);return true;}catch(e2){return false;}}}
+function blockA(){return state.entries.map((e,i)=>[i+1,e.name,e.handle,e.mainGenre,e.subGenres.join('／'),ages(e),e.childCount,e.vibe,e.followers,e.avgLikes].join('\t')).join('\n');}
+function blockB(){return state.entries.map(e=>[e.postFreq,e.buzzUrl,e.buzzLikes,e.prStatus,e.status,e.memo,e.registDate].join('\t')).join('\n');}
+async function copyNew(){if(!state.entries.length){toast('まだデータがありません');return;}const n=state.entries.slice(state.lastCopied);if(!n.length){toast('新着はありません');return;}const t=n.map((e,i)=>[state.lastCopied+i+1,e.name,e.handle,e.mainGenre,e.subGenres.join('／'),ages(e),e.childCount,e.vibe,e.followers,e.avgLikes].join('\t')).join('\n');const ok=await cp(t);if(ok){state.lastCopied=state.entries.length;toast(`${n.length}件コピーしました（A〜J列）`);}else toast('コピーに失敗しました');}
+async function copyBlockA(){const ok=await cp(blockA());toast(ok?'A〜J列コピーしました':'失敗しました');}
+async function copyBlockB(){const ok=await cp(blockB());toast(ok?'L〜S列コピーしました':'失敗しました');}
+async function del(id){if(!confirm('削除しますか？'))return;state.entries=state.entries.filter(e=>e.id!==id);if(state.lastCopied>state.entries.length)state.lastCopied=state.entries.length;save();render();}
+async function clearAll(){if(!confirm('全データを削除します。コピーは済んでいますか？'))return;state.entries=[];state.lastCopied=0;save();render();}
+function switchTab(t){state.tab=t;render();}
+function toggleSub(s){const i=state.form.subGenres.indexOf(s);if(i>=0)state.form.subGenres.splice(i,1);else state.form.subGenres.push(s);render();}
+function toggleC2(v){const i=state.form.child2Ages.indexOf(v);if(i>=0)state.form.child2Ages.splice(i,1);else state.form.child2Ages.push(v);render();}
+function n1(){if(!state.form.name.trim()||!state.form.handle.trim()){toast('アカウント名とハンドル名を入力してください');return;}state.step=1;render();}
+function n2(){if(!state.form.mainGenre){toast('メインジャンルを選んでください');return;}state.step=2;render();}
+function eo(){const el=document.getElementById('ev');if(el){const r=eng(state.form.followers,state.form.avgLikes);el.textContent=r===null?'—':r.toFixed(2)+'%';}}
+async function saveEntry(){const f=state.form;state.entries.push({id:Date.now(),name:f.name.trim(),handle:f.handle.trim(),platform:f.platform,mainGenre:f.mainGenre,subGenres:[...f.subGenres],child1Age:f.child1Age,child2Ages:[...f.child2Ages],childCount:f.childCount,vibe:f.vibe,followers:f.followers,avgLikes:f.avgLikes,postFreq:f.postFreq,prStatus:f.prStatus,buzzUrl:f.buzzUrl,buzzLikes:f.buzzLikes,status:f.status||'候補',memo:f.memo,registDate:today()});save();state.form=ef();state.step=0;toast(`保存しました（${state.entries.length}件）`);render();}
+function render(){const app=document.getElementById('app');const nc=state.entries.length-state.lastCopied;app.innerHTML=`<div class="topbar"><button class="iconbtn">✕</button><h1>mamagram input</h1><button class="iconbtn">⋯</button></div>${state.tab==='add'&&state.step===0?`<div class="brandrow"><div class="logo">mamagram</div><div class="badge">${state.entries.length}件</div></div>`:''}<div class="tabs"><button class="${state.tab==='add'?'active':''}" onclick="switchTab('add')">＋ 追加</button><button class="${state.tab==='list'?'active':''}" onclick="switchTab('list')">📋 一覧</button></div>${state.tab==='add'?rAdd():rList(nc)}`;}
+function rAdd(){const s=state.step;return`<div class="prog"><div class="dots">${[0,1,2,3].map(i=>i<s?'<div class="dot done"></div>':i===s?'<div class="dot active"></div>':'<div class="dot"></div>').join('')}</div><div class="steplbl">${SL[s]}</div></div><div class="content">${s===0?rS1():s===1?rS2():s===2?rS3():rS4()}</div>`;}
+function rS1(){const f=state.form;return`<div class="field"><label>アカウント名<span class="req">必須</span></label><input type="text" value="${esc(f.name)}" placeholder="例）はなまるママ" oninput="state.form.name=this.value"></div><div class="field"><label>＠ハンドル名<span class="req">必須</span></label><input type="text" value="${esc(f.handle)}" placeholder="例）hanamaru_mama（@不要）" oninput="state.form.handle=this.value"></div><div class="field"><label>プラットフォーム</label><div class="pills">${PL.map(p=>`<div class="pill ${f.platform===p.v?'sel':''}" onclick="state.form.platform='${p.v}';render()">${p.e} ${p.v}</div>`).join('')}</div></div><div class="btnrow"><button class="btn btn-p" onclick="n1()">次へ →</button></div>`;}
+function rS2(){const f=state.form;return`<div class="field"><label>メインジャンル<span class="req">必須</span></label><div class="ggrid">${MG.map(g=>`<div class="gpill ${f.mainGenre===g.v?'sel':''}" onclick="state.form.mainGenre='${g.v}';render()">${g.e} ${g.l}</div>`).join('')}</div></div><div class="field"><label>サブジャンル<span class="opt">（複数タップ可）</span></label><div class="pills">${SG.map(s=>`<div class="pill ${f.subGenres.includes(s)?'sel':''}" onclick="toggleSub('${s}')">${s}</div>`).join('')}</div></div><div class="field"><label>子供の年齢<span class="opt">（複数可）</span></label><div class="subhead">👶 第1子</div><div class="pills">${C1.map(a=>`<div class="pill ${f.child1Age===a.v?'sel':''}" onclick="state.form.child1Age='${a.v}';render()">${a.e} ${a.v}</div>`).join('')}</div><div class="subhead">👶👶 第2子以降（複数選択可）</div><div class="pills">${C2.map(a=>`<div class="pill ${f.child2Ages.includes(a.v)?'sel':''}" onclick="toggleC2('${a.v}')">${a.e} ${a.v}</div>`).join('')}</div></div><div class="field"><label>子供の人数<span class="opt">（任意）</span></label><div class="pills">${['1人','2人','3人','4人以上'].map(n=>`<div class="pill ${f.childCount===n?'sel':''}" onclick="state.form.childCount='${n}';render()">${n}</div>`).join('')}</div></div><div class="field"><label>アカウントの雰囲気<span class="opt">（任意）</span></label><div class="pills">${VB.map(v=>`<div class="pill ${f.vibe===v?'sel':''}" onclick="state.form.vibe='${v}';render()">${v}</div>`).join('')}</div></div><div class="btnrow"><button class="btn btn-s" onclick="state.step=0;render()">← 戻る</button><button class="btn btn-p" onclick="n2()">次へ →</button></div>`;}
+function rS3(){const f=state.form;const r=eng(f.followers,f.avgLikes);return`<div class="field"><label>フォロワー数</label><input type="number" inputmode="numeric" value="${esc(f.followers)}" placeholder="例）42000" oninput="state.form.followers=this.value;eo()"></div><div class="field"><label>平均いいね数<span class="opt">（直近10投稿の目安でOK）</span></label><input type="number" inputmode="decimal" value="${esc(f.avgLikes)}" placeholder="例）1526" oninput="state.form.avgLikes=this.value;eo()"></div><div class="field"><label>ENG率<span class="opt">（自動計算）</span></label><div class="engbox"><span class="lbl">エンゲージメント率</span><span class="val" id="ev">${r===null?'—':r.toFixed(2)+'%'}</span></div></div><div class="field"><label>投稿頻度<span class="opt">（フィード）</span></label><div class="pills">${PF.map(p=>`<div class="pill ${f.postFreq===p?'sel':''}" onclick="state.form.postFreq='${p}';render()">${p}</div>`).join('')}</div></div><div class="field"><label>PR実績</label><div class="pills">${PR.map(p=>`<div class="pill ${f.prStatus===p.v?'sel':''}" onclick="state.form.prStatus='${p.v}';render()">${p.e} ${p.v}</div>`).join('')}</div></div><div class="btnrow"><button class="btn btn-s" onclick="state.step=1;render()">← 戻る</button><button class="btn btn-p" onclick="state.step=3;render()">次へ →</button></div>`;}
+function rS4(){const f=state.form;return`<div class="field"><label>バズ投稿URL<span class="opt">（任意）</span></label><input type="url" value="${esc(f.buzzUrl)}" placeholder="https://www.instagram.com/p/..." oninput="state.form.buzzUrl=this.value"></div><div class="field"><label>バズいいね数<span class="opt">（任意）</span></label><span class="hint">バズ投稿URLを入れた場合の、その投稿のいいね数</span><input type="number" inputmode="numeric" value="${esc(f.buzzLikes)}" placeholder="例）12000" oninput="state.form.buzzLikes=this.value"></div><div class="field"><label>掲載ステータス</label><div class="pills">${ST.map(s=>`<div class="pill ${f.status===s?'sel':''}" onclick="state.form.status='${s}';render()">${s}</div>`).join('')}</div></div><div class="field"><label>メモ<span class="opt">（雰囲気・特徴など自由に）</span></label><textarea placeholder="例）柔らかくおしゃれな雰囲気…" oninput="state.form.memo=this.value">${esc(f.memo)}</textarea></div><div class="btnrow"><button class="btn btn-s" onclick="state.step=2;render()">← 戻る</button><button class="btn btn-p" onclick="saveEntry()">✅ 保存する</button></div>`;}
+function rList(nc){const all=state.entries;const ae=all.filter(e=>eng(e.followers,e.avgLikes));const avg=ae.length?ae.reduce((s,e)=>s+eng(e.followers,e.avgLikes),0)/ae.length:0;const tf=all.reduce((s,e)=>s+(parseFloat(e.followers)||0),0);const genres=['すべて',...new Set(all.map(e=>e.mainGenre).filter(Boolean))];const fil=state.filter==='すべて'?all:all.filter(e=>e.mainGenre===state.filter);return`<div class="list-head"><button class="copy-main" onclick="copyNew()">📋 新着をスプレッドシート用にコピー${nc>0?` (${nc}件)`:''}</button><button class="copy-sub" onclick="copyBlockA()">📤 A〜J列をコピー（全件）</button><button class="copy-sub" onclick="copyBlockB()">📤 L〜S列をコピー（全件）</button><button class="clearbtn" onclick="clearAll()">コピー済みデータを全削除</button><div class="stats"><div class="stat"><div class="v">${all.length}</div><div class="l">総アカウント</div></div><div class="stat"><div class="v">${avg?avg.toFixed(1)+'%':'—'}</div><div class="l">平均ENG率</div></div><div class="stat"><div class="v">${tf>=10000?(tf/10000).toFixed(1)+'万':tf||'—'}</div><div class="l">総フォロワー</div></div></div></div><div class="filters">${genres.map(g=>`<div class="fchip ${state.filter===g?'sel':''}" onclick="state.filter='${g}';render()">${g}</div>`).join('')}</div><div class="cards">${fil.length===0?'<div class="empty">まだ保存されたアカウントがありません。<br>「＋追加」タブから入力してみましょう。</div>':fil.map(e=>{const r=eng(e.followers,e.avgLikes);return`<div class="card"><div class="card-top"><div><div class="card-no">No.${state.entries.indexOf(e)+1}</div><div class="card-name">${esc(e.name)}</div><div class="card-handle">📸 @${esc(e.handle)}</div></div><div class="card-actions"><div class="tag-status ${esc(e.status)}">${esc(e.status)}</div><button class="delbtn" onclick="del(${e.id})">🗑</button></div></div><div class="tags"><span class="tag tag-genre">${esc(e.mainGenre)}</span>${e.subGenres.map(s=>`<span class="tag tag-sub">${esc(s)}</span>`).join('')}${ages(e)?`<span class="tag tag-age">🧸 ${esc(ages(e))}</span>`:''}</div><div class="card-stats">${r!==null?`<span>ENG率 <span class="eng">${r.toFixed(2)}%</span></span>`:''}${e.postFreq?`<span>頻度: ${esc(e.postFreq)}</span>`:''}${e.prStatus?`<span>PR: ${esc(e.prStatus)}</span>`:''}</div>${e.memo?`<div class="card-memo">${esc(e.memo)}</div>`:''}</div>`;}).join('')}</div>`;}
+load();
+</script>
+</body>
+</html>
